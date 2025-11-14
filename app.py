@@ -116,7 +116,7 @@ if "last_error" not in st.session_state:
 
 col_fetch, col_help = st.columns([1, 3])
 with col_fetch:
-    if st.button("Fetch Data From Supabase"):
+    if st.button("Fetch Data From Server"):
         try:
             st.session_state.last_error = None
             with st.spinner("Fetching data... (this may retry on transient network errors)"):
@@ -136,15 +136,15 @@ with col_fetch:
             st.session_state.df = pd.DataFrame()
             st.error("Error fetching data: " + str(e))
 
-with col_help:
-    st.markdown(
-        """
-        **Notes / Troubleshooting**
-        - Ensure `.env` contains `SUPABASE_URL` (https://...supabase.co) and `SUPABASE_KEY` (anon or service role).
-        - If you see SSL handshake errors, try switching to a different network (mobile hotspot or VPN).
-        - This app uses `certifi` (CA bundle) and retries to improve reliability.
-        """
-    )
+# with col_help:
+#     st.markdown(
+#         """
+#         **Notes / Troubleshooting**
+#         - Ensure `.env` contains `SUPABASE_URL` (https://...supabase.co) and `SUPABASE_KEY` (anon or service role).
+#         - If you see SSL handshake errors, try switching to a different network (mobile hotspot or VPN).
+#         - This app uses `certifi` (CA bundle) and retries to improve reliability.
+#         """
+#     )
 
 # If there was a last_error show details and suggestion
 if st.session_state.last_error:
@@ -267,4 +267,4 @@ if st.session_state.data_loaded:
     # st.download_button("Download Excel", towrite, file_name=f"{TABLE}_filtered.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 else:
-    st.info("Click **Fetch Data From Supabase** to begin.")
+    st.info("Click **Fetch Data From Server** to begin.")
