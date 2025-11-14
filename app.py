@@ -101,9 +101,9 @@ def normalize_df(df: pd.DataFrame) -> pd.DataFrame:
 # -------------------------
 # Streamlit App
 # -------------------------
-st.set_page_config(page_title="Supabase Data Viewer — Robust", layout="wide")
+st.set_page_config(page_title="TF EBBills", layout="wide")
 
-st.title("📦 Supabase Data Viewer — Robust REST + SSL Fixes")
+st.title("📦 TF EB Bills Viewer")
 st.write(f"Table: **{TABLE}**")
 
 # Initialize session state
@@ -245,12 +245,26 @@ if st.session_state.data_loaded:
     st.download_button("Download CSV", csv, file_name=f"{TABLE}_filtered.csv", mime="text/csv")
 
     # Excel in memory
+    # Excel in memory
     towrite = BytesIO()
     with pd.ExcelWriter(towrite, engine="openpyxl") as writer:
         df.to_excel(writer, index=False, sheet_name="data")
-        writer.save()
+
     towrite.seek(0)
-    st.download_button("Download Excel", towrite, file_name=f"{TABLE}_filtered.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+    st.download_button(
+        "Download Excel", 
+        towrite, 
+        file_name=f"{TABLE}_filtered.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+    # towrite = BytesIO()
+    # with pd.ExcelWriter(towrite, engine="openpyxl") as writer:
+    #     df.to_excel(writer, index=False, sheet_name="data")
+    #     writer.save()
+    # towrite.seek(0)
+    # st.download_button("Download Excel", towrite, file_name=f"{TABLE}_filtered.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 else:
     st.info("Click **Fetch Data From Supabase** to begin.")
